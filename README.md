@@ -37,11 +37,72 @@ export default {
 };
 ```
 
-### 2. TODO
+### 2. Export `getInitialState()` function in `src/app.js`
+
+You can fetch some data asynchronously or synchronously then return whatever value in the `getInitialState()` function, the returned value would be saved as initial state (basic information) by umi. For example:
+
+```js
+// src/app.js
+
+export async function getInitialState() {
+  const { userId, fole } = await getCurrentRole();
+  return {
+    userId,
+    role,
+  };
+}
+```
+
+### 3. Create `src/access.js` and defaultly export a function to define the access feature of your application
+
+With the initial state (basic information) prepared, you can define the access feature of your application, like "can create something", "can't update something", just return the definition in the function:
+
+```js
+// src/access.js
+
+export default function(initialState) {
+  const { userId, role } = initialState; // the initialState is the returned value in step 2
+
+  return {
+    canReadFoo: true,
+    canUpdateFoo: role === 'admin',
+    canDeleteFoo: foo => { return foo.ownerId === userId },
+  };
+}
+```
+
+### 4. Consume the access feature definition
+
+After step 3, now you get the access feature definition of your application, then you can use the definition in your component:
+
+```
+import React from 'react';
+import { useAccess, Access } from 'umi';
+
+const PageA = props => {
+  const { foo } = props;
+  const access = useAcccess(); // members of access: canReadFoo, canUpdateFoo, canDeleteFoo
+
+  return (
+    <div>
+      <Access accessbible={access.canReadFoo} fallback={<div>Can not read foo content.</div>}>
+        Foo content.
+      </Access>
+      <Access accessbible={access.canUpdateFoo} fallback={<div>Can not update foo.</div>}>
+        Update foo.
+      </Access>
+      <Access accessbible={access.canDeleteFoo(foo)} fallback={<div>Can not delete foo.</div>}>
+        Delete foo.
+      </Access>
+    </div>
+  );
+};
+```
+
+You can use the `access` instance to control the execution flow, use `<Access>` component to control the rendering, when `accessible` is true, children is rendered, otherwise `fallback` is rendered.
 
 
-
-Full example can find in [./example](https://github.com/umijs/plugin-access/tree/master/example).
+**Full example can find in [./example](https://github.com/umijs/plugin-access/tree/master/example).**
 
 ## LICENSE
 

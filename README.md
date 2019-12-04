@@ -25,7 +25,7 @@ Getting started in 3 steps.
 
 ### 1. Configure in `.umirc.js`
 
-**Caution**: `@umijs/plugin-access` must be after `@umijs/plugin-model`.
+**Caution**: `@umijs/plugin-access` must be **before** `@umijs/plugin-model`.
 
 ```js
 export default {

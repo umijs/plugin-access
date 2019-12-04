@@ -1,8 +1,9 @@
 import { IApi } from 'umi-types';
 import path from 'path';
 import getContextContent from './getContextContent';
-import getRootContainerContent from './getRootContainerContent';
+import getAccessProviderContent from './getAccessProviderContent';
 import getAccessContent from './getAccessContent';
+import getRootContainerContent from './getRootContainerContent';
 import { checkIfHasDefaultExporting } from './util';
 
 const ACCESS_DIR = 'plugin-access'; // plugin-access 插件创建临时文件的专有文件夹
@@ -24,11 +25,14 @@ export default function(api: IApi) {
     // 创建 access 的 context 以便跨组件传递 access 实例
     api.writeTmpFile(`${ACCESS_DIR}/context.ts`, getContextContent(accessFilePath));
 
-    // 生成 rootContainer 运行时配置的内容: 1. 生成 access 实例; 2. 遍历修改 routes; 3. 传给 context 的 Provider
-    api.writeTmpFile(`${ACCESS_DIR}/rootContainer.ts`, getRootContainerContent());
+    // 创建 AccessProvider，1. 生成 access 实例; 2. 遍历修改 routes; 3. 传给 context 的 Provider
+    api.writeTmpFile(`${ACCESS_DIR}/AccessProvider.ts`, getAccessProviderContent(accessFilePath));
 
     // 创建 access 的 hook
     api.writeTmpFile(`${ACCESS_DIR}/access.ts`, getAccessContent());
+
+    // 生成 rootContainer 运行时配置
+    api.writeTmpFile(`${ACCESS_DIR}/rootContainer.ts`, getRootContainerContent(accessFilePath));
   });
 
   // 增加 rootContainer 运行时配置

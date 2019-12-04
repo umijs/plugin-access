@@ -13,24 +13,27 @@ export default function(api: IApi) {
   const accessTmpDir = path.resolve(umiTmpDir, ACCESS_DIR);
   const accessFilePath = path.resolve(srcDir, 'access');
 
-  // 判断 acces 工厂函数存在并且 default 暴露了一个函数
-  if (!checkIfHasDefaultExporting(accessFilePath)) {
-    throw new Error(
-      '[plugin-access]: access.js or access.ts file should be defined at srcDir and default exporting a factory function.',
-    );
-  }
+  api.onGenerateFiles(() => {
+    // 判断 acces 工厂函数存在并且 default 暴露了一个函数
+    if (!checkIfHasDefaultExporting(accessFilePath)) {
+      api.log.warn(
+        `[plugin-access]: access.js or access.ts file should be defined at srcDir and default exporting a factory function.`
+      );
+    }
 
-  // 创建 access 的 context 以便跨组件传递 access 实例
-  api.writeTmpFile(`${ACCESS_DIR}/context.ts`, getContextContent(accessFilePath));
+    // 创建 access 的 context 以便跨组件传递 access 实例
+    api.writeTmpFile(`${ACCESS_DIR}/context.ts`, getContextContent(accessFilePath));
 
-  // 生成 rootContainer 运行时配置的内容: 1. 生成 access 实例; 2. 遍历修改 routes; 3. 传给 context 的 Provider
-  api.writeTmpFile(`${ACCESS_DIR}/rootContainer.ts`, getRootContainerContent(accessFilePath));
+    // 生成 rootContainer 运行时配置的内容: 1. 生成 access 实例; 2. 遍历修改 routes; 3. 传给 context 的 Provider
+    api.writeTmpFile(`${ACCESS_DIR}/rootContainer.ts`, getRootContainerContent());
 
-  // 创建 access 的 hook
-  api.writeTmpFile(`${ACCESS_DIR}/access.ts`, getAccessContent());
+    // 创建 access 的 hook
+    api.writeTmpFile(`${ACCESS_DIR}/access.ts`, getAccessContent());
+  });
 
   // 增加 rootContainer 运行时配置
-  api.addRuntimePlugin(`${api.paths.absTmpDirPath}/@tmp/${ACCESS_DIR}/rootContainer`); // TODO: eliminate this workaround
+  // TODO: eliminate this workaround
+  api.addRuntimePlugin(`${api.paths.absTmpDirPath}/@tmp/${ACCESS_DIR}/rootContainer`);
 
   api.addUmiExports([
     {

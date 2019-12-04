@@ -6,7 +6,7 @@
 [![GitHub Actions status](https://github.com/umijs/plugin-access/workflows/Node%20CI/badge.svg)](https://github.com/umijs/plugin-access)
 [![NPM downloads](http://img.shields.io/npm/dm/@umijs/plugin-access.svg?style=flat)](https://npmjs.org/package/@umijs/plugin-access)
 
-umi plugin to store initial state globally.
+Umi plugin for access management.
 
 ## Install
 

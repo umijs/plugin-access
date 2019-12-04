@@ -1,11 +1,11 @@
 
-export default function(accessFilePath: string) {
+export default function() {
   return `\
 import React, { useMemo } from 'react';
 import { IRoute } from 'umi-types';
-import { useModel } from '@alipay/bigfish';
+import { useModel } from 'umi';
 import AccessContext, { AccessInstance } from './context';
-import accessFactory from '${accessFilePath}';
+import accessFactory from './access';
 
 const _routes = require('../router');
 

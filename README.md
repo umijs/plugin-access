@@ -75,7 +75,7 @@ export default function(initialState) {
 
 After step 3, now you get the access feature definition of your application, then you can use the definition in your component:
 
-```
+```jsx
 import React from 'react';
 import { useAccess, Access } from 'umi';
 

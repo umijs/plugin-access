@@ -8,6 +8,10 @@
 
 Umi plugin for access management.
 
+## Prerequisites
+
+Before using this plugin, you need install and enable [@umijs/plugin-model](https://www.npmjs.com/package/@umijs/plugin-model) and [@umijs/plugin-initial-state](https://www.npmjs.com/package/@umijs/plugin-initial-state).
+
 ## Install
 
 ```bash
@@ -21,9 +25,15 @@ Getting started in 3 steps.
 
 ### 1. Configure in `.umirc.js`
 
+**Caution**: `@umijs/plugin-access` must be after `@umijs/plugin-model`.
+
 ```js
 export default {
-  plugins: [['@umijs/plugin-access', options]],
+  plugins: [
+    ['@umijs/plugin-access'],
+    ['@umijs/plugin-model'],
+    ['@umijs/plugin-initial-state'],
+  ],
 };
 ```
 

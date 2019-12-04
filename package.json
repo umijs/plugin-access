@@ -1,0 +1,44 @@
+{
+  "name": "@umijs/plugin-access",
+  "version": "0.0.1-alpha.1",
+  "description": "Umi plugin for access management.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/umijs/plugin-access"
+  },
+  "homepage": "https://github.com/umijs/plugin-access",
+  "authors": [
+    "Troy Li <a@tianyi.li>"
+  ],
+  "bugs": {
+    "url": "https://github.com/umijs/plugin-access/issues"
+  },
+  "peerDependencies": {
+    "@umijs/plugin-model": "^0.1.0",
+    "@umijs/plugin-initial-state": "^0.1.0",
+    "react": "^16.0.0",
+    "umi": "2.x"
+  },
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "father-build",
+    "test": "umi-test --coverage",
+    "debug": "umi-test",
+    "prepublishOnly": "npm run build && np --no-cleanup --yolo --no-publish"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.11",
+    "father-build": "^1.15.0",
+    "np": "^3.0.4",
+    "umi-test": "^1.3.3",
+    "umi-types": "^0.5.7"
+  },
+  "files": [
+    "lib",
+    "src"
+  ]
+}

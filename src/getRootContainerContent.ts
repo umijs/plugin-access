@@ -50,9 +50,9 @@ function traverseModifyRoutes(routes: Routes, access: AccessInstance) {
 }
 
 export function rootContainer(container) {
-  const { info, refresh, loading } = useModel('@@initialState');
+  const { initialState, refresh, loading } = useModel('@@initialState');
 
-  const access = useMemo(() => accessFactory(info), [info]);
+  const access = useMemo(() => accessFactory(initialState), [initialState]);
 
   _routes.splice(0, _routes.length, ...traverseModifyRoutes(_routes, access));
 

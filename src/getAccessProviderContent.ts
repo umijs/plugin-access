@@ -1,11 +1,11 @@
 
-export default function (accessFilePath: string) {
+export default function () {
   return `\
 import React, { useMemo } from 'react';
 import { IRoute } from 'umi-types';
 import { useModel } from 'umi';
 import AccessContext, { AccessInstance } from './context';
-import accessFactory from '${accessFilePath}';
+import accessFactory from '@/access';
 
 const _routes = require('../router').routes;
 
@@ -55,7 +55,7 @@ interface Props {
 
 const AccessProvider: React.FC<Props> = props => {
   const { children } = props;
-  const { initialState, refresh, loading } = useModel('@@initialState');
+  const { initialState, loading } = useModel('@@initialState');
 
   const access = useMemo(() => accessFactory(initialState), [initialState]);
 
@@ -70,7 +70,7 @@ const AccessProvider: React.FC<Props> = props => {
     { value: access },
     children,
   );
-}
+};
 
 export default AccessProvider;
 `;

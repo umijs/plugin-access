@@ -1,8 +1,8 @@
 
-export default function(accessFilePath: string) {
+export default function() {
   return `\
 import React from 'react';
-import accessFactory from '${accessFilePath}';
+import accessFactory from '@/access';
 
 export type AccessInstance = ReturnType<typeof accessFactory>;
 

@@ -1,5 +1,5 @@
 import { IApi } from 'umi-types';
-import path from 'path';
+import { join } from 'path';
 import getContextContent from './getContextContent';
 import getAccessProviderContent from './getAccessProviderContent';
 import getAccessContent from './getAccessContent';
@@ -11,45 +11,52 @@ const ACCESS_DIR = 'plugin-access'; // plugin-access 插件创建临时文件的
 export default function(api: IApi) {
   const umiTmpDir = api.paths.absTmpDirPath;
   const srcDir = api.paths.absSrcPath;
-  const accessTmpDir = path.resolve(umiTmpDir, ACCESS_DIR);
-  const accessFilePath = path.resolve(srcDir, 'access');
+  const accessTmpDir = join(umiTmpDir, ACCESS_DIR);
+  const accessFilePath = join(srcDir, 'access');
 
   api.onGenerateFiles(() => {
-    // 判断 acces 工厂函数存在并且 default 暴露了一个函数
-    if (!checkIfHasDefaultExporting(accessFilePath)) {
+    const enableAccess = checkIfHasDefaultExporting(accessFilePath);
+
+    // 判断 access 工厂函数存在并且 default 暴露了一个函数
+    if (!enableAccess) {
       api.log.warn(
         `[plugin-access]: access.js or access.ts file should be defined at srcDir and default exporting a factory function.`
       );
     }
 
     // 创建 access 的 context 以便跨组件传递 access 实例
-    api.writeTmpFile(`${ACCESS_DIR}/context.ts`, getContextContent(accessFilePath));
+    api.writeTmpFile(`${ACCESS_DIR}/context.ts`, getContextContent());
 
     // 创建 AccessProvider，1. 生成 access 实例; 2. 遍历修改 routes; 3. 传给 context 的 Provider
-    api.writeTmpFile(`${ACCESS_DIR}/AccessProvider.ts`, getAccessProviderContent(accessFilePath));
+    api.writeTmpFile(`${ACCESS_DIR}/AccessProvider.ts`, getAccessProviderContent());
 
     // 创建 access 的 hook
     api.writeTmpFile(`${ACCESS_DIR}/access.ts`, getAccessContent());
 
     // 生成 rootContainer 运行时配置
-    api.writeTmpFile(`${ACCESS_DIR}/rootContainer.ts`, getRootContainerContent(accessFilePath));
+    api.writeTmpFile(
+      `${ACCESS_DIR}/rootContainer.ts`,
+      enableAccess ? getRootContainerContent() : '/* keep file */',
+    );
   });
 
   // 增加 rootContainer 运行时配置
   // TODO: eliminate this workaround
-  api.addRuntimePlugin(`${api.paths.absTmpDirPath}/@tmp/${ACCESS_DIR}/rootContainer`);
+  api.addRuntimePlugin(join(umiTmpDir, '@tmp', ACCESS_DIR, 'rootContainer.ts'));
 
   api.addUmiExports([
     {
       specifiers: ['useAccess', 'Access', 'AccessProps'],
-      source: path.resolve(accessTmpDir, 'access'),
+      source: join(accessTmpDir, 'access'),
+    },
+    {
+      specifiers: ['AccessInstance'],
+      source: join(accessTmpDir, 'context'),
     },
   ]);
 
-  api.addUmiExports([
-    {
-      specifiers: ['AccessInstance'],
-      source: path.resolve(accessTmpDir, 'context'),
-    },
+  api.addPageWatcher([
+    `${accessFilePath}.ts`,
+    `${accessFilePath}.js`,
   ]);
 }

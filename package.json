@@ -33,7 +33,7 @@
     "@testing-library/react": "^9.3.2",
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.11",
-    "@umijs/plugin-initial-state": "^0.1.0",
+    "@umijs/plugin-initial-state": "^0.2.0",
     "@umijs/plugin-model": "^0.1.0",
     "cross-env": "^6.0.3",
     "father-build": "^1.15.0",

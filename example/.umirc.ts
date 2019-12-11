@@ -7,7 +7,7 @@ export default {
   ],
   plugins: [
     join(__dirname, '..', require('../package').main || 'index.js'),
-    ['@umijs/plugin-model'],
     ['@umijs/plugin-initial-state'],
+    ['@umijs/plugin-model'],
   ],
 } as IConfig;

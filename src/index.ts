@@ -1,10 +1,10 @@
 import { IApi } from 'umi-types';
 import { join } from 'path';
-import getContextContent from './getContextContent';
-import getAccessProviderContent from './getAccessProviderContent';
-import getAccessContent from './getAccessContent';
-import getRootContainerContent from './getRootContainerContent';
-import { checkIfHasDefaultExporting } from './util';
+import getContextContent from './utils/getContextContent';
+import getAccessProviderContent from './utils/getAccessProviderContent';
+import getAccessContent from './utils/getAccessContent';
+import getRootContainerContent from './utils/getRootContainerContent';
+import { checkIfHasDefaultExporting } from './utils';
 
 const ACCESS_DIR = 'plugin-access'; // plugin-access 插件创建临时文件的专有文件夹
 

@@ -1,21 +1,20 @@
-
 export default function () {
   return `\
 import React, { useMemo } from 'react';
-import { IRoute } from 'umi-types';
 import { useModel } from 'umi';
-import AccessContext, { AccessInstance } from './context';
+import { IRoute } from 'umi-types';
 import accessFactory from '@/access';
-
-const _routes = require('../router').routes;
-
-type Routes = IRoute[];
+import AccessContext, { AccessInstance } from './context';
 
 if (typeof useModel !== 'function') {
   throw new Error('[plugin-access]: useModel is not a function, @umijs/plugin-initial-state is needed.')
 }
 
-function traverseModifyRoutes(routes: Routes, access: AccessInstance) {
+const _routes = require('../router').routes;
+
+type Routes = IRoute[];
+
+function traverseModifyRoutes(routes: Routes, access: AccessInstance = {}) {
   const resultRoutes: Routes = [].concat(routes as any);
   const notHandledRoutes: Routes = [];
 
@@ -55,15 +54,15 @@ interface Props {
 
 const AccessProvider: React.FC<Props> = props => {
   const { children } = props;
-  const { initialState, loading } = useModel('@@initialState');
+  const { initialState } = useModel('@@initialState');
 
   const access = useMemo(() => accessFactory(initialState), [initialState]);
 
-  _routes.splice(0, _routes.length, ...traverseModifyRoutes(_routes, access));
-
-  if (loading) {
-    return null; // ! 影响很大，需要确定要不要这么做，不这么做有没有更好的办法
+  if (process.env.NODE_ENV === 'development' && (access === undefined || access === null)) {
+    console.warn('[plugin-access]: the access instance created by access.ts(js) is nullish, maybe you need check it.');
   }
+
+  _routes.splice(0, _routes.length, ...traverseModifyRoutes(_routes, access));
 
   return React.createElement(
     AccessContext.Provider,

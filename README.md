@@ -10,7 +10,7 @@ Umi plugin for access management.
 
 ## Prerequisites
 
-Before using this plugin, you need install and enable [@umijs/plugin-model](https://www.npmjs.com/package/@umijs/plugin-model) and [@umijs/plugin-initial-state](https://www.npmjs.com/package/@umijs/plugin-initial-state).
+Before using this plugin, you need install and enable [@umijs/plugin-initial-state](https://www.npmjs.com/package/@umijs/plugin-initial-state) and [@umijs/plugin-model](https://www.npmjs.com/package/@umijs/plugin-model).
 
 ## Install
 
@@ -25,14 +25,14 @@ Getting started in 3 steps.
 
 ### 1. Configure in `.umirc.js`
 
-**Caution**: `@umijs/plugin-access` must be **before** `@umijs/plugin-model`.
+**Caution**: `@umijs/plugin-access`, `@umijs/plugin-initial-state` and `@umijs/plugin-model` must be in this order.
 
 ```js
 export default {
   plugins: [
     ['@umijs/plugin-access'],
-    ['@umijs/plugin-model'],
     ['@umijs/plugin-initial-state'],
+    ['@umijs/plugin-model'],
   ],
 };
 ```
@@ -82,6 +82,10 @@ import { useAccess, Access } from 'umi';
 const PageA = props => {
   const { foo } = props;
   const access = useAcccess(); // members of access: canReadFoo, canUpdateFoo, canDeleteFoo
+
+  if (access.canReadFoo) {
+    // Do something...
+  }
 
   return (
     <div>

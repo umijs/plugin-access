@@ -89,13 +89,13 @@ const PageA = props => {
 
   return (
     <div>
-      <Access accessbible={access.canReadFoo} fallback={<div>Can not read foo content.</div>}>
+      <Access accessible={access.canReadFoo} fallback={<div>Can not read foo content.</div>}>
         Foo content.
       </Access>
-      <Access accessbible={access.canUpdateFoo} fallback={<div>Can not update foo.</div>}>
+      <Access accessible={access.canUpdateFoo} fallback={<div>Can not update foo.</div>}>
         Update foo.
       </Access>
-      <Access accessbible={access.canDeleteFoo(foo)} fallback={<div>Can not delete foo.</div>}>
+      <Access accessible={access.canDeleteFoo(foo)} fallback={<div>Can not delete foo.</div>}>
         Delete foo.
       </Access>
     </div>

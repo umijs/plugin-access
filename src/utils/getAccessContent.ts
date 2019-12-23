@@ -11,18 +11,18 @@ export const useAccess = () => {
 
 export interface AccessProps {
   accessible: boolean;
-  fallback?: Exclude<React.ReactNode, {}>;
-  children: Exclude<React.ReactNode, {}>;
+  fallback?: Exclude<React.ReactNode, {} | undefined>;
+  children: Exclude<React.ReactNode, {} | undefined>;
 }
 
 export const Access: React.FC<AccessProps> = (props: AccessProps) => {
   const { accessible, fallback, children } = props;
 
   if (process.env.NODE_ENV === 'development' && typeof accessible === 'function') {
-    console.warn('[plugin-access]: provided "accessible" prop is a function named "' + accessible.name + '" instead of a boolean, maybe you need check it.');
+    console.warn('[plugin-access]: provided "accessible" prop is a function named "' + (accessible as Function).name + '" instead of a boolean, maybe you need check it.');
   }
 
-  return accessible ? children : fallback;
+  return accessible ? children : fallback!;
 };
 `;
 }

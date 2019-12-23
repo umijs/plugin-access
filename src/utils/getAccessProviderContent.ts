@@ -14,7 +14,7 @@ const _routes = require('../router').routes;
 
 type Routes = IRoute[];
 
-function traverseModifyRoutes(routes: Routes, access: AccessInstance = {}) {
+function traverseModifyRoutes(routes: Routes, access: AccessInstance = {} as AccessInstance) {
   const resultRoutes: Routes = [].concat(routes as any);
   const notHandledRoutes: Routes = [];
 
@@ -56,7 +56,7 @@ const AccessProvider: React.FC<Props> = props => {
   const { children } = props;
   const { initialState } = useModel('@@initialState');
 
-  const access = useMemo(() => accessFactory(initialState), [initialState]);
+  const access = useMemo(() => accessFactory(initialState as any), [initialState]);
 
   if (process.env.NODE_ENV === 'development' && (access === undefined || access === null)) {
     console.warn('[plugin-access]: the access instance created by access.ts(js) is nullish, maybe you need check it.');

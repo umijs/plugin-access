@@ -97,7 +97,10 @@ const PageA = props => {
       >
         Foo content.
       </Access>
-      <Access accessible={access.canUpdateFoo} fallback={<div>Can not update foo.</div>}>
+      <Access
+        accessible={access.canUpdateFoo}
+        fallback={<div>Can not update foo.</div>}
+      >
         Update foo.
       </Access>
       <Access

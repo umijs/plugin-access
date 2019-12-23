@@ -66,7 +66,9 @@ export default function(initialState) {
   return {
     canReadFoo: true,
     canUpdateFoo: role === 'admin',
-    canDeleteFoo: foo => { return foo.ownerId === userId },
+    canDeleteFoo: foo => {
+      return foo.ownerId === userId;
+    },
   };
 }
 ```
@@ -81,7 +83,7 @@ import { useAccess, Access } from 'umi';
 
 const PageA = props => {
   const { foo } = props;
-  const access = useAcccess(); // members of access: canReadFoo, canUpdateFoo, canDeleteFoo
+  const access = useAccess(); // members of access: canReadFoo, canUpdateFoo, canDeleteFoo
 
   if (access.canReadFoo) {
     // Do something...
@@ -89,13 +91,19 @@ const PageA = props => {
 
   return (
     <div>
-      <Access accessible={access.canReadFoo} fallback={<div>Can not read foo content.</div>}>
+      <Access
+        accessible={access.canReadFoo}
+        fallback={<div>Can not read foo content.</div>}
+      >
         Foo content.
       </Access>
       <Access accessible={access.canUpdateFoo} fallback={<div>Can not update foo.</div>}>
         Update foo.
       </Access>
-      <Access accessible={access.canDeleteFoo(foo)} fallback={<div>Can not delete foo.</div>}>
+      <Access
+        accessible={access.canDeleteFoo(foo)}
+        fallback={<div>Can not delete foo.</div>}
+      >
         Delete foo.
       </Access>
     </div>
@@ -104,7 +112,6 @@ const PageA = props => {
 ```
 
 You can use the `access` instance to control the execution flow, use `<Access>` component to control the rendering, when `accessible` is true, children is rendered, otherwise `fallback` is rendered.
-
 
 **Full example can find in [./example](https://github.com/umijs/plugin-access/tree/master/example).**
 

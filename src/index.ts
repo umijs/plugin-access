@@ -20,7 +20,7 @@ export default function(api: IApi) {
     // 判断 access 工厂函数存在并且 default 暴露了一个函数
     if (!enableAccess) {
       api.log.warn(
-        `[plugin-access]: access.js or access.ts file should be defined at srcDir and default exporting a factory function.`
+        `[plugin-access]: access.js or access.ts file should be defined at srcDir and default exporting a factory function.`,
       );
     }
 
@@ -31,7 +31,7 @@ export default function(api: IApi) {
     api.writeTmpFile(`${ACCESS_DIR}/AccessProvider.ts`, getAccessProviderContent());
 
     // 创建 access 的 hook
-    api.writeTmpFile(`${ACCESS_DIR}/access.ts`, getAccessContent());
+    api.writeTmpFile(`${ACCESS_DIR}/access.tsx`, getAccessContent());
 
     // 生成 rootContainer 运行时配置
     api.writeTmpFile(
@@ -46,7 +46,7 @@ export default function(api: IApi) {
 
   api.addUmiExports([
     {
-      specifiers: ['useAccess', 'Access', 'AccessProps'],
+      exportAll: true,
       source: join(accessTmpDir, 'access'),
     },
     {
@@ -55,8 +55,5 @@ export default function(api: IApi) {
     },
   ]);
 
-  api.addPageWatcher([
-    `${accessFilePath}.ts`,
-    `${accessFilePath}.js`,
-  ]);
+  api.addPageWatcher([`${accessFilePath}.ts`, `${accessFilePath}.js`]);
 }

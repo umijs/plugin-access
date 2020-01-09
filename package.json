@@ -1,6 +1,6 @@
 {
   "name": "@umijs/plugin-access",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Umi plugin for access management.",
   "license": "MIT",
   "repository": {

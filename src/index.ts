@@ -47,11 +47,11 @@ export default function(api: IApi) {
   api.addUmiExports([
     {
       exportAll: true,
-      source: join(accessTmpDir, 'access'),
+      source: api.winPath(join(accessTmpDir, 'access')),
     },
     {
       specifiers: ['AccessInstance'],
-      source: join(accessTmpDir, 'context'),
+      source: api.winPath(join(accessTmpDir, 'context')),
     },
   ]);
 

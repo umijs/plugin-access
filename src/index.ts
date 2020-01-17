@@ -49,10 +49,6 @@ export default function(api: IApi) {
       exportAll: true,
       source: api.winPath(join(accessTmpDir, 'access')),
     },
-    {
-      specifiers: ['AccessInstance'],
-      source: api.winPath(join(accessTmpDir, 'context')),
-    },
   ]);
 
   api.addPageWatcher([`${accessFilePath}.ts`, `${accessFilePath}.js`]);

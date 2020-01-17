@@ -1,7 +1,9 @@
 export default function() {
   return `\
 import React, { useContext } from 'react';
-import AccessContext from './context';
+import AccessContext, { AccessInstance as AccessInstanceType } from './context';
+
+export type AccessInstance = AccessInstanceType;
 
 export const useAccess = () => {
   const access = useContext(AccessContext);

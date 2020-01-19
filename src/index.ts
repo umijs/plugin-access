@@ -8,7 +8,7 @@ import { getScriptPath, checkIfHasDefaultExporting } from './utils';
 
 const ACCESS_DIR = 'plugin-access'; // plugin-access 插件创建临时文件的专有文件夹
 
-interface Options {
+export interface Options {
   integrated: boolean; // 表明当前插件是否被其它插件集成
 }
 

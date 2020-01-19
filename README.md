@@ -118,6 +118,12 @@ You can use the `access` instance to control the execution flow, use `<Access>` 
 
 **Full example can find in [./example](https://github.com/umijs/plugin-access/tree/master/example).**
 
+## Options
+
+* `options.integrated`
+
+A boolean value, default to be `false`. You can config this option to show if this plugin is integrated by others plugin to control the warning behaviour of this plugin. If integrated is `true`, this plugin won't show the warning message when `src/access.js` is not defined, otherwise a warning message would always shown to ensure this plugin runs correctly.
+
 ## LICENSE
 
 MIT

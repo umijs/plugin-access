@@ -1,4 +1,4 @@
-export default function () {
+export default function() {
   return `\
 import React, { useMemo } from 'react';
 import { useModel } from 'umi';
@@ -22,18 +22,18 @@ function traverseModifyRoutes(routes: Routes, access: AccessInstance = {} as Acc
 
   for (let i = 0; i < notHandledRoutes.length; i++) {
     const currentRoute = notHandledRoutes[i];
+    let currentRouteAccessible = typeof currentRoute.unaccessible === 'boolean' ? !currentRoute.unaccessible : true;
     if (currentRoute && currentRoute.access) {
       if (typeof currentRoute.access !== 'string') {
         throw new Error('[plugin-access]: "access" field set in "' + currentRoute.path + '" route should be a string.');
       }
       const accessProp = access[currentRoute.access];
-      let accessible = true;
       if (typeof accessProp === 'function') {
-        accessible = accessProp(currentRoute)
+        currentRouteAccessible = accessProp(currentRoute)
       } else if (typeof accessProp === 'boolean') {
-        accessible = accessProp;
+        currentRouteAccessible = accessProp;
       }
-      currentRoute.unaccessible = !accessible;
+      currentRoute.unaccessible = !currentRouteAccessible;
     }
 
     if (currentRoute.routes || currentRoute.childRoutes) {
@@ -41,6 +41,7 @@ function traverseModifyRoutes(routes: Routes, access: AccessInstance = {} as Acc
       if (!Array.isArray(childRoutes)) {
         continue;
       }
+      childRoutes.forEach(childRoute => { childRoute.unaccessible = !currentRouteAccessible }); // Default inherit from parent route
       notHandledRoutes.push(...childRoutes);
     }
   }

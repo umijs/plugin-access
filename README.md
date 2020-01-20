@@ -118,6 +118,12 @@ You can use the `access` instance to control the execution flow, use `<Access>` 
 
 **Full example can find in [./example](https://github.com/umijs/plugin-access/tree/master/example).**
 
+## Options
+
+* `options.showWarning`
+
+A boolean value, default to be `true`. When `showWarning` is `true`, this plugin would check if `src/access.js` is exist and defaultly exports a function, if no function exported, a warning info would be shown, otherwise if `showWarning` is `false`, no warning info would be shown.
+
 ## LICENSE
 
 MIT

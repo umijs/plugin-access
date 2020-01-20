@@ -120,9 +120,9 @@ You can use the `access` instance to control the execution flow, use `<Access>` 
 
 ## Options
 
-* `options.integrated`
+* `options.showWarning`
 
-A boolean value, default to be `false`. You can config this option to show if this plugin is integrated by others plugin to control the warning behaviour of this plugin. If integrated is `true`, this plugin won't show the warning message when `src/access.js` is not defined, otherwise a warning message would always shown to ensure this plugin runs correctly.
+A boolean value, default to be `true`. When `showWarning` is `true`, this plugin would check if `src/access.js` is exist and defaultly exports a function, if no function exported, a warning info would be shown, otherwise if `showWarning` is `false`, no warning info would be shown.
 
 ## LICENSE
 

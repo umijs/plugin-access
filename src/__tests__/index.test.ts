@@ -24,7 +24,7 @@ describe('PluginAccess', () => {
       addPageWatcher: jest.fn(),
       winPath: jest.fn(),
       onOptionChange: (cb: (opts: Options) => void) => {
-        cb({ integrated: false });
+        cb({ showWarning: true });
       },
       rebuildTmpFiles: jest.fn(),
     } as any;
@@ -35,25 +35,25 @@ describe('PluginAccess', () => {
     expect(mockApi.rebuildTmpFiles).toHaveBeenCalledTimes(1);
   });
 
-  it('should call log.warn when access file has not default exporting and plugin is not in integrated mode', () => {
-    registerAccessPlugin(mockApi, { integrated: false });
+  it('should call log.warn when access file does not exist', () => {
+    registerAccessPlugin(mockApi);
     expect(mockApi.log.warn).toHaveBeenCalledTimes(1);
   });
 
-  it('should call log.warn when access file exist but has not default exporting and plugin is in integrated mode', () => {
+  it('should call log.warn when access file exist but has not default exporting', () => {
     mockApi.paths.absSrcPath = 'path/to/no/export';
-    registerAccessPlugin(mockApi, { integrated: true });
+    registerAccessPlugin(mockApi);
     expect(mockApi.log.warn).toHaveBeenCalledTimes(1);
   });
 
-  it('should NOT call log.warn when access file not exist and plugin is in integrated mode', () => {
-    registerAccessPlugin(mockApi, { integrated: true });
+  it('should NOT call log.warn when access file does not exist but showWarning option is false', () => {
+    registerAccessPlugin(mockApi, { showWarning: false });
     expect(mockApi.log.warn).not.toHaveBeenCalled();
   });
 
   it('should run correctly when access file is defined and default exporting a function', () => {
     mockApi.paths.absSrcPath = 'path/to';
-    registerAccessPlugin(mockApi, { integrated: false });
+    registerAccessPlugin(mockApi, { showWarning: true });
     expect(mockApi.log.warn).not.toHaveBeenCalled();
     expect(mockApi.writeTmpFile).toHaveBeenCalledTimes(4);
     expect(mockApi.addUmiExports).toHaveBeenCalledTimes(1);

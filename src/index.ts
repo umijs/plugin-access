@@ -9,10 +9,10 @@ import { getScriptPath, checkIfHasDefaultExporting } from './utils';
 const ACCESS_DIR = 'plugin-access'; // plugin-access 插件创建临时文件的专有文件夹
 
 export interface Options {
-  integrated: boolean; // 表明当前插件是否被其它插件集成
+  showWarning: boolean; // 表明插件本身是否检测调用合法性并给出警告
 }
 
-const defaultOptions: Options = { integrated: false };
+const defaultOptions: Options = { showWarning: true };
 
 export default function(api: IApi, opts: Options = defaultOptions) {
   const umiTmpDir = api.paths.absTmpDirPath;
@@ -35,8 +35,7 @@ export default function(api: IApi, opts: Options = defaultOptions) {
       // 生成 rootContainer 运行时配置
       api.writeTmpFile(`${ACCESS_DIR}/rootContainer.ts`, getRootContainerContent());
     } else {
-      // 只在插件处于集成模式，并且 access 文件不存在时，才不给出警告信息，其它情况下都认为 access 文件有问题
-      if (!(opts.integrated && !getScriptPath(accessFilePath))) {
+      if (opts.showWarning) {
         api.log.warn(
           `[plugin-access]: access.js or access.ts file should be defined at srcDir and default exporting a factory function.`,
         );

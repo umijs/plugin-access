@@ -14,6 +14,7 @@ export const useAccess = () => {
 export interface AccessProps {
   accessible: boolean;
   fallback?: React.ReactNode;
+  children?: any;
 }
 
 export const Access: React.FC<AccessProps> = props => {
